@@ -4,15 +4,22 @@
   "description": "plankton",
   "main": "index.js",
   "scripts": {
+    "start": "forever --watch start index.js",
+    "stop": "forever stop index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git@git.gree-dev.net:daijiro-wachi/plankton.git"
+    "url": "git@github.com:watilde/plankton.git"
   },
   "author": "Daijiro Wachi",
   "license": "MIT",
   "dependencies": {
-    "js-yaml": "^3.2.3"
+    "forever": "^0.13.0",
+    "github": "^0.2.2",
+    "hapi": "^7.5.2",
+    "js-yaml": "^3.2.3",
+    "request": "^2.47.0",
+    "underscore": "^1.7.0"
   }
 }
