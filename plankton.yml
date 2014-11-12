@@ -1,0 +1,5 @@
+build_name
+  description: 'Build scss'
+  branches: '*'
+  events: 'push'
+  tasks: ['v2_css', 'pc_css']
