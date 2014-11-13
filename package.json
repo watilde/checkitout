@@ -17,11 +17,14 @@
   "dependencies": {
     "async": "^0.9.0",
     "connect": "^3.3.3",
+    "finalhandler": "^0.3.2",
     "forever": "^0.13.0",
     "github": "^0.2.2",
     "hapi": "^7.5.2",
     "js-yaml": "^3.2.3",
     "request": "^2.47.0",
+    "serve-index": "^1.5.0",
+    "serve-static": "^1.7.1",
     "underscore": "^1.7.0"
   }
 }

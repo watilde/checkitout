@@ -1,23 +1,22 @@
-var fs = require('fs');
-var connect = require('connect')
-var http = require('http');
-var _ = require('underscore');
+var finalhandler = require('finalhandler')
+var http = require('http')
+var serveIndex = require('serve-index')
+var serveStatic = require('serve-static')
 
-var app = connect()
+// Serve directory indexes for public/ftp folder (with icons)
+var index = serveIndex('app/', {'icons': true})
 
-app.use('/branches', function fooMiddleware(req, res, next) {
-  var path = __dirname + '/branches/' + req.url;
-  var cont;
-  if (fs.lstatSync(path).isDirectory()) {
-    cont = fs.readdirSync(path);
-    cont = JSON.stringify(cont);
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.write(cont);
-  } else {
-    cont = fs.readFileSync(path);
-    res.write(cont);
-  }
-  res.end();
-});
+// Serve up public/ftp folder files
+var serve = serveStatic('app/')
 
-http.createServer(app).listen(3000)
+// Create server
+var server = http.createServer(function onRequest(req, res){
+  var done = finalhandler(req, res)
+  serve(req, res, function onNext(err) {
+    if (err) return done(err)
+    index(req, res, done)
+  })
+})
+
+// Listen
+server.listen(3000)

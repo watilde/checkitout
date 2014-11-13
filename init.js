@@ -22,7 +22,7 @@ request(options, function (error, response, body) {
     async.waterfall(function () {
       var name = branch.name;
       var clone_url = 'git@github.com:' + org + '/' + repo + '.git';
-      exec('git clone --recursive -b ' + name + ' ' + clone_url + ' branches/' + default_branch,
+      exec('git clone --recursive -b ' + name + ' ' + clone_url + ' app/branches/' + default_branch,
         function (error, stdout, stderr) {
           console.log('stdout: ' + stdout);
           console.log('stderr: ' + stderr);
@@ -37,7 +37,7 @@ request(options, function (error, response, body) {
     }, async.each(branches, function (branch, callback) {
       var name = branch.name;
       var clone_url = 'git@github.com:' + org + '/' + repo + '.git';
-      exec('git clone --recursive --reference branches/' + default_branch + ' -b ' + name + ' ' + clone_url + ' branches/' + name,
+      exec('git clone --recursive --reference app/branches/' + default_branch + ' -b ' + name + ' ' + clone_url + ' app/branches/' + name,
         function (error, stdout, stderr) {
           console.log('stdout: ' + stdout);
           console.log('stderr: ' + stderr);
