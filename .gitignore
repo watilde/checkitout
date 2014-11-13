@@ -25,4 +25,4 @@ build/Release
 node_modules
 
 # Not monitored directories in Application
-branches
+app/branches
