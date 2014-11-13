@@ -1,34 +1,23 @@
-var Hapi = require('hapi');
-var server = new Hapi.Server(3000);
+var fs = require('fs');
+var connect = require('connect')
+var http = require('http');
+var _ = require('underscore');
 
-server.route({
-  method: 'GET',
-  path: '/',
-  handler: function (request, reply) {
-    reply('Hello, world!');
+var app = connect()
+
+app.use('/branches', function fooMiddleware(req, res, next) {
+  var path = __dirname + '/branches/' + req.url;
+  var cont;
+  if (fs.lstatSync(path).isDirectory()) {
+    cont = fs.readdirSync(path);
+    cont = JSON.stringify(cont);
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.write(cont);
+  } else {
+    cont = fs.readFileSync(path);
+    res.write(cont);
   }
+  res.end();
 });
 
-// Branches Mirror
-server.route([
-  {
-    method: 'GET',
-    path: '/branches',
-    handler: function (request, reply) {
-      var name = 'master';
-      reply('Hello, ' + encodeURIComponent(name) + '!');
-    }
-  }, {
-    method: 'GET',
-    path: '/branches/{name}',
-    handler: function (request, reply) {
-      var name = request.params.name;
-      reply('Hello, ' + encodeURIComponent(name) + '!');
-    }
-  }
-]);
-
-
-server.start(function () {
-  console.log('Server running at:', server.info.uri);
-});
+http.createServer(app).listen(3000)
