@@ -1,19 +1,26 @@
 var finalhandler = require('finalhandler');
-var http = require('http');
 var serveIndex = require('serve-index');
+var connect = require('connect');
 var serveStatic = require('serve-static');
+var connectInclude = require('connect-include');
 
 var index = serveIndex('./', {'icons': true});
 var serve = serveStatic('./');
+var include = connectInclude('./');
+
+var app = connect();
 
 // Create server
-var server = http.createServer(function onRequest(req, res){
+app.use(function (req, res) {
   var done = finalhandler(req, res);
-  serve(req, res, function (err) {
-    if (err) return done(err)
-    index(req, res, done);
+  include(req, res ,function (err) {
+    if (err) return done(err);
+    serve(req, res, function (err) {
+      if (err) return done(err);
+      index(req, res, done);
+    });
   });
-})
+});
 
 // Listen
-server.listen(3000)
+app.listen(3000);

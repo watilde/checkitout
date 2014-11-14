@@ -20,8 +20,8 @@ var options = {
 
 var getMaster = function (callback) {
   exec('git clone --recursive -b ' + default_branch + ' ' + clone_url + ' repos/' + repo + '/branches/' + default_branch,
-    function (error, stdout, stderr) {
-      console.log(error);
+    function (err, stdout, stderr) {
+      console.log(err);
       console.log(stdout);
       console.log(stderr);
 
