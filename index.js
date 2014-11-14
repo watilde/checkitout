@@ -3,8 +3,8 @@ var http = require('http');
 var serveIndex = require('serve-index');
 var serveStatic = require('serve-static');
 
-var index = serveIndex('repos', {'icons': true});
-var serve = serveStatic('repos');
+var index = serveIndex('./', {'icons': true});
+var serve = serveStatic('./');
 
 // Create server
 var server = http.createServer(function onRequest(req, res){
