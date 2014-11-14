@@ -18,6 +18,8 @@
     "async": "^0.9.0",
     "connect": "^3.3.3",
     "connect-include": "^0.2.1",
+    "connect-lb-include": "^0.1.1",
+    "express": "^4.10.2",
     "finalhandler": "^0.3.2",
     "forever": "^0.13.0",
     "github": "^0.2.2",
