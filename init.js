@@ -9,6 +9,7 @@ var default_branch = 'master';
 
 var url = 'https://api.github.com/repos/' + org + '/' + repo + '/branches';
 var clone_url = 'git@github.com:' + org + '/' + repo + '.git';
+var branches;
 
 var options = {
   url: url,
@@ -17,9 +18,13 @@ var options = {
   }
 };
 
-var getMaster = function () {
+var getMaster = function (callback) {
   exec('git clone --recursive -b ' + default_branch + ' ' + clone_url + ' repos/' + repo + '/branches/' + default_branch,
     function (error, stdout, stderr) {
+      console.log(error);
+      console.log(stdout);
+      console.log(stderr);
+
       if (error === null) {
         branches.filter(function (elem){
           return elem !== default_branch;
@@ -45,12 +50,12 @@ var getRepos = function (done) {
 };
 
 request(options, function (error, response, body) {
-  var branches = body = JSON.parse(body);
+  branches = body = JSON.parse(body);
   if (error || response.statusCode !== 200) {
     body.status_code = response.statusCode;
     console.error(JSON.stringify(body, null, 4));
     return false;
   }
 
-  async.waterfall([getMaster, getRepos);
+  async.waterfall([getMaster, getRepos]);
 });
