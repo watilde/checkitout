@@ -29,5 +29,8 @@
     "serve-index": "^1.5.0",
     "serve-static": "^1.7.1",
     "underscore": "^1.7.0"
+  },
+  "devDependencies": {
+    "ssi": "^0.1.5"
   }
 }
