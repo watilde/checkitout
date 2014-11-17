@@ -9,6 +9,6 @@
     "postprocessing": "./postprocessing.js"
   },
   "repos": {
-    "watilde": ["css-filter.js", "dartstack"]
+    "watilde": ["css-filter.js", "wdu"]
   }
 }

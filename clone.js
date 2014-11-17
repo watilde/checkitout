@@ -56,12 +56,40 @@ async.waterfall([
                 throw new Error(err);
               }
               console.info('Done: ' + incantation);
-              callback();
+              callback(null, default_branch);
             });
           },
           // c. Clone all branches reference a default branch
-          function (callback) {
-            console.info('Yo');
+          function (default_branch, next) {
+            async.waterfall([
+              function () {
+                var url = api_url + '/repos/' + owner + '/' + repo + '/branches';
+                var options = {
+                  url: url,
+                  headers: {
+                    'User-Agent': 'Awesome-Octocat-App'
+                  }
+                };
+                request(options, function (err, res, body) {
+                  var branches = body;
+                  branches = body = JSON.parse(body);
+                  if (res.statusCode !== 200) {
+                    console.error('Error: ' + body.message);
+                    console.error('Documentation URL: ' + body.documentation_url);
+                    throw new Error('A status code of Github API was not 200');
+                  }
+                  if (err !== null && err !== void 0) {
+                    console.error('res: ' + JSON.stringify(res, null, 4));
+                    console.error('body: ' + JSON.stringify(body, null, 4));
+                    throw new Error(err);
+                  }
+                  branches.filter(function (branch) {
+                    return default_branch !== branch.name;
+                  });
+                  console.log(branches)
+                });
+              }
+            ]);
           }
         ]);
       });
@@ -69,4 +97,5 @@ async.waterfall([
   }
 ], function (err, result) {
    // result now equals 'done'
+   console.info('Yo');
 });
