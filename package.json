@@ -16,21 +16,13 @@
   "license": "MIT",
   "dependencies": {
     "async": "^0.9.0",
-    "connect": "^3.3.3",
-    "connect-include": "^0.2.1",
-    "connect-lb-include": "^0.1.1",
     "express": "^4.10.2",
-    "finalhandler": "^0.3.2",
     "forever": "^0.13.0",
-    "github": "^0.2.2",
-    "hapi": "^7.5.2",
-    "js-yaml": "^3.2.3",
     "request": "^2.47.0",
+    "rimraf": "^2.2.8",
     "serve-index": "^1.5.0",
     "serve-static": "^1.7.1",
+    "ssi": "^0.1.5",
     "underscore": "^1.7.0"
-  },
-  "devDependencies": {
-    "ssi": "^0.1.5"
   }
 }
