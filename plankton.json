@@ -9,6 +9,7 @@
     "postprocessing": "./postprocessing.js"
   },
   "repos": {
-    "watilde": ["css-filter.js", "wdu"]
+    "watilde": ["css-filter.js", "wdu"],
+    "ma3tk": ["smb_path_converter"]
   }
 }

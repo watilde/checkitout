@@ -13,7 +13,9 @@ async.waterfall([
   // 2. Clone all repos files to feel good
   function (callback) {
     var _repos = plankton.repos;
+    var count = 0;
     _.each(_repos, function (repos, owner) {
+      count += repos.length;
       _.each(repos, function (repo) {
         var api_url = plankton.urls.api;
         var clone_url = plankton.urls.clone;
@@ -112,7 +114,12 @@ async.waterfall([
               }
             ], callback2);
           }
-        ], callback);
+        ], function () {
+          count -= 1;
+          if (count === 0) {
+            callback();
+          }
+        });
       });
     });
   }
@@ -122,5 +129,5 @@ async.waterfall([
     console.error('result: ' + result);
     throw new Error(err);
   }
-  console.info('Done clone repos');
+  console.info('All done clone every repos');
 });
