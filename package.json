@@ -1,7 +1,7 @@
 {
-  "name": "plankton",
+  "name": "checkitout",
   "version": "1.0.0",
-  "description": "plankton",
+  "description": "checkitout",
   "main": "index.js",
   "scripts": {
     "start": "forever --watch start index.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:watilde/plankton.git"
+    "url": "git@github.com:watilde/checkitout.git"
   },
   "author": "Daijiro Wachi",
   "license": "MIT",

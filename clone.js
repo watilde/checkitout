@@ -3,7 +3,7 @@ var request = require('request');
 var rimraf = require('rimraf');
 var _ = require('underscore');
 var exec = require('child_process').exec;
-var plankton = require('./plankton.json');
+var checkitout = require('./checkitout.json');
 
 async.waterfall([
   // 1. Clean repos directory
@@ -12,13 +12,13 @@ async.waterfall([
   },
   // 2. Clone all repos files to feel good
   function (callback) {
-    var _repos = plankton.repos;
+    var _repos = checkitout.repos;
     var count = 0;
     _.each(_repos, function (repos, owner) {
       count += repos.length;
       _.each(repos, function (repo) {
-        var api_url = plankton.urls.api;
-        var clone_url = plankton.urls.clone;
+        var api_url = checkitout.urls.api;
+        var clone_url = checkitout.urls.clone;
         async.waterfall([
           // a. Get a default branch name
           function (callback2) {
