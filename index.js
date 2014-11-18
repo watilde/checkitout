@@ -14,6 +14,10 @@ if (checkitout.scripts.preprocessing) {
   require(checkitout.scripts.preprocessing)(app);
 }
 
+app.use('/postreceive', function (req, res, next) {
+  console.log(req);
+  res.end();
+});
 app.use(serveStatic);
 app.use(serveIndex);
 
