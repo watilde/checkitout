@@ -11,7 +11,7 @@ async.waterfall([
     rimraf('./repos', callback);
   },
   // 2. Clone all repos files to feel good
-  function (done) {
+  function (callback) {
     var _repos = plankton.repos;
     _.each(_repos, function (repos, owner) {
       _.each(repos, function (repo) {
@@ -19,7 +19,7 @@ async.waterfall([
         var clone_url = plankton.urls.clone;
         async.waterfall([
           // a. Get a default branch name
-          function (callback) {
+          function (callback2) {
             var url = api_url + '/repos/' + owner + '/' + repo;
             request({
               url: url,
@@ -38,11 +38,11 @@ async.waterfall([
                 console.error('body: ' + JSON.stringify(body, null, 4));
                 throw new Error(err);
               }
-              callback(null, body.default_branch);
+              callback2(null, body.default_branch);
             });
           },
           // b. Clone a default branch
-          function (default_branch, callback) {
+          function (default_branch, callback2) {
             var incantation = 'git clone';
             incantation += ' --recursive';
             incantation += ' -b ' + default_branch;
@@ -56,13 +56,13 @@ async.waterfall([
                 throw new Error(err);
               }
               console.info('Done: ' + incantation);
-              callback(null, default_branch);
+              callback2(null, default_branch);
             });
           },
           // c. Clone all branches reference a default branch
-          function (default_branch, next) {
+          function (default_branch, callback2) {
             async.waterfall([
-              function () {
+              function (callback3) {
                 var url = api_url + '/repos/' + owner + '/' + repo + '/branches';
                 var options = {
                   url: url,
@@ -83,19 +83,44 @@ async.waterfall([
                     console.error('body: ' + JSON.stringify(body, null, 4));
                     throw new Error(err);
                   }
-                  branches.filter(function (branch) {
+                  branches = branches.filter(function (branch) {
                     return default_branch !== branch.name;
                   });
-                  console.log(branches)
+                  callback3(null, branches);
                 });
+              },
+              function (branches, callback3) {
+                async.each(branches, function (branch, callback4) {
+                  var branch_name = branch.name;
+                  var incantation = 'git clone';
+                  incantation += ' --recursive';
+                  incantation += ' --reference repos/' + owner + '/' + repo + '/branches/' + default_branch;
+                  incantation += ' -b ' + branch_name;
+                  incantation += ' ' + clone_url + ':' + owner + '/' + repo;
+                  incantation += ' repos/' + owner + '/' + repo + '/branches/' + branch_name;
+                  console.info('Exec: ' + incantation);
+                  exec(incantation, function (err, stdout, stderr) {
+                    if (err !== null && err !== void 0) {
+                      console.error('stdout: ' + stdout);
+                      console.error('stderr: ' + stderr);
+                      throw new Error(err);
+                    }
+                    console.info('Done: ' + incantation);
+                    callback4();
+                  });
+                }, callback3);
               }
-            ]);
+            ], callback2);
           }
-        ]);
+        ], callback);
       });
     });
   }
 ], function (err, result) {
    // result now equals 'done'
-   console.info('Yo');
+  if (err !== null && err !== void 0) {
+    console.error('result: ' + result);
+    throw new Error(err);
+  }
+  console.info('Done clone repos');
 });
