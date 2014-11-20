@@ -6,7 +6,7 @@
   "scripts": {
     "start": "forever --watch start index.js",
     "stop": "forever stop index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node-dev index.js"
   },
   "repository": {
     "type": "git",
@@ -24,5 +24,8 @@
     "serve-static": "^1.7.1",
     "ssi": "^0.1.5",
     "underscore": "^1.7.0"
+  },
+  "devDependencies": {
+    "node-dev": "^2.6.0"
   }
 }
