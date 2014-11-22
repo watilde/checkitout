@@ -4,7 +4,7 @@
   "description": "checkitout",
   "main": "index.js",
   "scripts": {
-    "start": "forever --watch start index.js",
+    "start": "forever start index.js",
     "stop": "forever stop index.js",
     "test": "node-dev index.js"
   },
